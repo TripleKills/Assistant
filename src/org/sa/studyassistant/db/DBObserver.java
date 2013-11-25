@@ -1,14 +1,14 @@
 package org.sa.studyassistant.db;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 public class DBObserver implements DBListener {
 
-	private List<DBListener> observers = new CopyOnWriteArrayList<DBListener>();
+	private List<DBListener> observers = new ArrayList<DBListener>();
 
 	public boolean registMax(DBListener lsnr) {
 		if (null == lsnr)

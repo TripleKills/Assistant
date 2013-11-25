@@ -36,7 +36,8 @@ public class AssistantDAO extends DBObserver {
 		long answer_id = save.insertAnswer(knowledge.getAnswer().text);
 		if (answer_id == -1)
 			return false;
-		long category_id = save.insertCategory(knowledge.getCategory().name);
+		String category = null != knowledge.getCategory() ? knowledge.getCategory().name : "default";
+		long category_id = save.insertCategory(category);
 		if (category_id == -1)
 			return false;
 		long question_id = save.insertQuestion(knowledge.getQuestion().text,
@@ -51,6 +52,10 @@ public class AssistantDAO extends DBObserver {
 
 	public List<Category> findAllCategory() {
 		return save.findAllCategory();
+	}
+	
+	public List<Question> findDefaultQuestion() {
+		return findQuestionByCategory("default");
 	}
 
 	public List<Question> findQuestionByCategory(String name) {

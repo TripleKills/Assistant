@@ -101,7 +101,7 @@ public class SaveDB extends SQLiteOpenHelper {
 		if (TextUtils.isEmpty(name))
 			return result;
 		String sql = "select * from " + DBMetaData.CATEGORY_TABLE_NAME
-				+ " where name=?";
+				+ " where " + DBMetaData.CATEGORY_TEXT + "=?";
 		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { name });
 		if (null == c)
 			return -1;
