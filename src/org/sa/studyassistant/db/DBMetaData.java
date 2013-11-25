@@ -9,7 +9,6 @@ public class DBMetaData {
 	
 	public static final String QUESTION_TABLE_NAME = "question";
 	public static final String QUESTION_TEXT = "text";
-	public static final String QUESTION_PIC = "pic";
 	public static final String QUESTION_CREATE_TIME = "create_time";
 	public static final String QUESTION_CATEGORY_ID = "category_id";
 	public static final String QUESTION_ANSWER_ID = "answer_id";

@@ -1,5 +1,11 @@
 package org.sa.studyassistant.db;
 
+import java.util.List;
+
+import org.sa.studyassistant.model.Category;
+import org.sa.studyassistant.model.Knowledge;
+import org.sa.studyassistant.model.Question;
+
 import android.content.Context;
 
 public class AssistantDAO extends DBObserver {
@@ -23,6 +29,37 @@ public class AssistantDAO extends DBObserver {
 		save.regist(this);
 		trace = new TraceDAO(context);
 		trace.regist(this);
+	}
+
+	public boolean createKnowledge(Knowledge knowledge) {
+		long answer_id = save.insertAnswer(knowledge.getAnswer().text);
+		if (answer_id == -1)
+			return false;
+		long category_id = save.insertCategory(knowledge.getCategory().name);
+		if (category_id == -1)
+			return false;
+		long question_id = save.insertQuestion(knowledge.getQuestion().text,
+				answer_id, category_id);
+		if (question_id == -1)
+			return false;
+		knowledge.setAnswer_id(answer_id);
+		knowledge.setCategory_id(category_id);
+		knowledge.setQuestion_id(question_id);
+		return true;
+	}
+
+	public List<Category> findAllCategory() {
+		return save.findAllCategory();
+	}
+
+	public List<Question> findQuestionByCategory(String name) {
+		Category category = new Category();
+		category.name = name;
+		return save.findQuestionByCategory(category);
+	}
+
+	public List<Question> findQuestionByCategory(Category category) {
+		return save.findQuestionByCategory(category);
 	}
 
 }

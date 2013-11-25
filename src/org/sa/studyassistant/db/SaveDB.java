@@ -30,8 +30,8 @@ public class SaveDB extends SQLiteOpenHelper {
 		// question table
 		db.execSQL("create table " + DBMetaData.QUESTION_TABLE_NAME
 				+ " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
-				+ DBMetaData.QUESTION_ANSWER_ID + " TEXT, "
-				+ DBMetaData.QUESTION_CATEGORY_ID + " TEXT, "
+				+ DBMetaData.QUESTION_ANSWER_ID + " LONG, "
+				+ DBMetaData.QUESTION_CATEGORY_ID + " LONG, "
 				+ DBMetaData.QUESTION_CREATE_TIME + " LONG, "
 				+ DBMetaData.QUESTION_TEXT + " TEXT);");
 
@@ -51,25 +51,76 @@ public class SaveDB extends SQLiteOpenHelper {
 	public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
 	}
 
-	// apis for category
-	public long addCategory(String name) {
-		if (TextUtils.isEmpty(name)) return -1;
-		if (isCategoryExist(name)) return -2;
+	// apis for answer
+	public long insertAnswer(String text) {
 		ContentValues values = new ContentValues();
-		values.put(DBMetaData.CATEGORY_TEXT, name);
-		return getWritableDatabase().insert(DBMetaData.CATEGORY_TABLE_NAME, null, values);
+		values.put(DBMetaData.ANSWER_TEXT, text);
+		return getWritableDatabase().insert(DBMetaData.ANSWER_TABLE_NAME, null,
+				values);
 	}
 
-	public boolean isCategoryExist(String name) {
+	// apis for question
+	public long insertQuestion(long answer_id, long category_id, String text, long create_time) {
+		if (answer_id < 0 || category_id < 0)
+			return -1;
+		ContentValues values = new ContentValues();
+		values.put(DBMetaData.QUESTION_ANSWER_ID, answer_id);
+		values.put(DBMetaData.QUESTION_CATEGORY_ID, category_id);
+		values.put(DBMetaData.QUESTION_TEXT, text);
+		values.put(DBMetaData.QUESTION_CREATE_TIME, create_time);
+		return getWritableDatabase().insert(DBMetaData.QUESTION_TABLE_NAME,
+				null, values);
+	}
+
+	public Cursor findQuestionsByCategory(long category_id) {
+		String sql = "select * from " + DBMetaData.QUESTION_TABLE_NAME
+				+ " where " + DBMetaData.QUESTION_CATEGORY_ID + "=?";
+		Cursor c = getReadableDatabase().rawQuery(sql,
+				new String[] { String.valueOf(category_id) });
+		return c;
+	}
+
+	// apis for category
+	public long findCategoryIdWithInsert(String name) {
 		if (TextUtils.isEmpty(name))
-			return false;
+			return -1;
+		long id = findCategoryId(name);
+		if (id != -1)
+			return id;
+		ContentValues values = new ContentValues();
+		values.put(DBMetaData.CATEGORY_TEXT, name);
+		return getWritableDatabase().insert(DBMetaData.CATEGORY_TABLE_NAME,
+				null, values);
+	}
+
+	public long findCategoryId(String name) {
+		long result = -1;
+		if (TextUtils.isEmpty(name))
+			return result;
 		String sql = "select * from " + DBMetaData.CATEGORY_TABLE_NAME
 				+ " where name=?";
 		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { name });
-		if (null == c) return false;
-		boolean result = c.moveToFirst();
-		c.close();
+		if (null == c)
+			return -1;
+		try {
+			if (null != c && c.moveToFirst()) {
+				result = c.getInt(c.getColumnIndex("_id"));
+			}
+		} finally {
+			c.close();
+		}
 		return result;
+	}
+
+	public Cursor findAllCategory() {
+		return findAll(DBMetaData.CATEGORY_TABLE_NAME);
+	}
+
+	// apis for all tables
+	private Cursor findAll(String table_name) {
+		String sql = "select * from " + table_name;
+		Cursor c = getReadableDatabase().rawQuery(sql, null);
+		return c;
 	}
 
 }
