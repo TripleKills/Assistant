@@ -24,6 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name="AnswerActivity"></activity>
+        <activity android:name="KnowledgeActivity"></activity>
     </application>
 
 </manifest>

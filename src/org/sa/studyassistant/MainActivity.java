@@ -15,6 +15,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListAdapter;
@@ -41,6 +42,14 @@ public class MainActivity extends Activity {
 				Question question = (Question) arg0.getAdapter().getItem(arg2);
 				SessionManager.getInstance().put("question", question);
 				startActivity(new Intent(MainActivity.this, AnswerActivity.class));
+			}
+		});
+		
+		findViewById(R.id.questions_aty_add).setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				startActivity(new Intent(v.getContext(), KnowledgeActivity.class));
 			}
 		});
 	}
