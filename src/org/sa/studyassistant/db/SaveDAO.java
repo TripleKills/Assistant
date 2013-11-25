@@ -3,6 +3,7 @@ package org.sa.studyassistant.db;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.sa.studyassistant.model.Answer;
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Question;
 import org.sa.studyassistant.util.Logger;
@@ -90,5 +91,26 @@ public class SaveDAO extends DBObserver {
 		question.create_time = c.getLong(c
 				.getColumnIndex(DBMetaData.QUESTION_CREATE_TIME));
 		return question;
+	}
+
+	public Answer findAnswerById(long answer_id) {
+		Cursor c = db.findAnswerById(answer_id);
+		if (null == c)
+			return null;
+		try {
+			if (c.moveToFirst()) {
+				Answer answer = recreateAnswer(c);
+				return answer;
+			}
+		} finally {
+			c.close();
+		}
+		return null;
+	}
+
+	private Answer recreateAnswer(Cursor c) {
+		Answer answer = new Answer();
+		answer.text = c.getString(c.getColumnIndex(DBMetaData.ANSWER_TEXT));
+		return answer;
 	}
 }

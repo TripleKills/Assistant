@@ -59,8 +59,14 @@ public class SaveDB extends SQLiteOpenHelper {
 				values);
 	}
 
+	public Cursor findAnswerById(long answer_id) {
+		return findBy(DBMetaData.ANSWER_TABLE_NAME, "_id",
+				String.valueOf(answer_id));
+	}
+
 	// apis for question
-	public long insertQuestion(long answer_id, long category_id, String text, long create_time) {
+	public long insertQuestion(long answer_id, long category_id, String text,
+			long create_time) {
 		if (answer_id < 0 || category_id < 0)
 			return -1;
 		ContentValues values = new ContentValues();
@@ -73,11 +79,8 @@ public class SaveDB extends SQLiteOpenHelper {
 	}
 
 	public Cursor findQuestionsByCategory(long category_id) {
-		String sql = "select * from " + DBMetaData.QUESTION_TABLE_NAME
-				+ " where " + DBMetaData.QUESTION_CATEGORY_ID + "=?";
-		Cursor c = getReadableDatabase().rawQuery(sql,
-				new String[] { String.valueOf(category_id) });
-		return c;
+		return findBy(DBMetaData.QUESTION_TABLE_NAME,
+				DBMetaData.QUESTION_CATEGORY_ID, String.valueOf(category_id));
 	}
 
 	// apis for category
@@ -120,6 +123,14 @@ public class SaveDB extends SQLiteOpenHelper {
 	private Cursor findAll(String table_name) {
 		String sql = "select * from " + table_name;
 		Cursor c = getReadableDatabase().rawQuery(sql, null);
+		return c;
+	}
+
+	private Cursor findBy(String table_name, String key, String value) {
+		if (TextUtils.isEmpty(table_name) || TextUtils.isEmpty(key))
+			return null;
+		String sql = "select * from " + table_name + " where " + key + "=?";
+		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { value });
 		return c;
 	}
 

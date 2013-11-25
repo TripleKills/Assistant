@@ -2,6 +2,7 @@ package org.sa.studyassistant.db;
 
 import java.util.List;
 
+import org.sa.studyassistant.model.Answer;
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Knowledge;
 import org.sa.studyassistant.model.Question;
@@ -31,7 +32,7 @@ public class AssistantDAO extends DBObserver {
 		trace.regist(this);
 	}
 
-	public boolean createKnowledge(Knowledge knowledge) {
+	public boolean insertKnowledge(Knowledge knowledge) {
 		long answer_id = save.insertAnswer(knowledge.getAnswer().text);
 		if (answer_id == -1)
 			return false;
@@ -60,6 +61,14 @@ public class AssistantDAO extends DBObserver {
 
 	public List<Question> findQuestionByCategory(Category category) {
 		return save.findQuestionByCategory(category);
+	}
+
+	public Answer findAnswerById(long answer_id) {
+		return save.findAnswerById(answer_id);
+	}
+
+	public Answer findAnswer(Question question) {
+		return save.findAnswerById(question.answer_id);
 	}
 
 }
