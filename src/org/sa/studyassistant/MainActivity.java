@@ -40,7 +40,8 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
 				Question question = (Question) arg0.getAdapter().getItem(arg2);
-				SessionManager.getInstance().put("question", question);
+				Answer answer = AssistantDAO.getInstance().findAnswer(question);
+				SessionManager.getInstance().put("answer", answer);
 				startActivity(new Intent(MainActivity.this, AnswerActivity.class));
 			}
 		});

@@ -1,6 +1,6 @@
 package org.sa.studyassistant;
 
-import org.sa.studyassistant.model.Question;
+import org.sa.studyassistant.model.Answer;
 import org.sa.studyassistant.util.SessionManager;
 
 import android.app.Activity;
@@ -14,7 +14,7 @@ public class AnswerActivity extends Activity {
 		setContentView(R.layout.answer_aty);
 		
 		TextView text = (TextView) findViewById(R.id.answer_aty_text);
-		Question question = (Question) SessionManager.getInstance().remove("question");
-		if (null != question) text.setText(question.text);
+		Answer answer = (Answer) SessionManager.getInstance().remove("answer");
+		if (null != answer) text.setText(answer.text);
 	}
 }
