@@ -1,5 +1,7 @@
 package org.sa.studyassistant.model;
 
 public class Category {
-	public String name = "default";
+	public int category_id;
+	public String name = null;
+	public Category belong_to = null;
 }

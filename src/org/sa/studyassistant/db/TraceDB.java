@@ -23,10 +23,9 @@ public class TraceDB extends SQLiteOpenHelper {
 		db.execSQL("create table " + DBMetaData.TRACE_TABLE_NAME
 				+ " ( _id INTEGER PRIMARY KEY AUTOINCREMENT, "
 				+ DBMetaData.TRACE_ACTION + " TEXT, "
-				+ DBMetaData.TRACE_ITEM_ID + " TEXT, "
-				+ DBMetaData.TRACE_TIME_DAY + " LONG, "
-				+ DBMetaData.TRACE_TIME_HOURINFO + " LONG, "
-				+ DBMetaData.TRACE_ITEM_TYPE + " TEXT);");
+				+ DBMetaData.TRACE_ITEM_ID + " INTEGER, "
+				+ DBMetaData.TRACE_TIME + " LONG, "
+				+ DBMetaData.TRACE_PHRASE + " INTEGER);");
 	}
 
 	@Override

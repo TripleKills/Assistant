@@ -3,10 +3,8 @@ package org.sa.studyassistant.db;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.sa.studyassistant.model.Answer;
 import org.sa.studyassistant.model.Category;
-import org.sa.studyassistant.model.Question;
-import org.sa.studyassistant.util.Logger;
+import org.sa.studyassistant.model.Knowledge;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -14,35 +12,28 @@ import android.database.Cursor;
 public class SaveDAO extends DBObserver {
 	private SaveDB db;
 	private static final String tag = SaveDAO.class.getName();
+	private static final int DEFAULT_CATEGORY_ID = -2;
 
 	public SaveDAO(Context context) {
 		db = new SaveDB(context);
-		addDefaultCategory();
 	}
 
-	/**
-	 * add default category, all notes without category belong to this category
-	 * 
-	 * @return
-	 */
-	private long addDefaultCategory() {
-		long result = db.findCategoryIdWithInsert("default");
-		String msg = "add default category, result is " + result;
-		Logger.i(tag, msg);
-		return result;
+	public long insertCategory(Category category) {
+		int belong_to = -1;
+		if (null != category.belong_to)
+			belong_to = category.belong_to.category_id;
+		return db.insertCategory(category.name, belong_to);
 	}
 
-	public long insertAnswer(String answer) {
-		return db.insertAnswer(answer);
+	public long insertKnowledge(Knowledge knowledge) {
+		int category_id = DEFAULT_CATEGORY_ID;
+		if (null != knowledge.category)
+			category_id = knowledge.category.category_id;
+		return db.insertKnowledge(knowledge.answer, category_id, knowledge.question, knowledge.create_time);
 	}
-
-	public long insertCategory(String category) {
-		return db.findCategoryIdWithInsert(category);
-	}
-
-	public long insertQuestion(String text, long answer_id, long category_id) {
-		return db.insertQuestion(answer_id, category_id, text,
-				System.currentTimeMillis());
+	
+	public int getDefaultKnowledgeId() {
+		return DEFAULT_CATEGORY_ID;
 	}
 
 	public List<Category> findAllCategory() {
@@ -63,54 +54,32 @@ public class SaveDAO extends DBObserver {
 
 	private Category recreateCategory(Cursor c) {
 		Category category = new Category();
-		category.name = c.getString(c.getColumnIndex(DBMetaData.CATEGORY_TEXT));
+		category.name = c.getString(c.getColumnIndex(DBMetaData.CATEGORY_NAME));
 		return category;
 	}
 
-	public List<Question> findQuestionByCategory(Category category) {
-		List<Question> questions = new ArrayList<Question>();
-		Cursor c = db.findQuestionsByCategory(db.findCategoryId(category.name));
+	public List<Knowledge> findKnowledgeByCategory(int category_id) {
+		List<Knowledge> knowledges = new ArrayList<Knowledge>();
+		Cursor c = db.findKnowledgesByCategory(category_id);
 		if (null == c)
-			return questions;
+			return knowledges;
 		try {
 			while (c.moveToNext()) {
-				Question question = recreateQuestion(c);
-				questions.add(question);
+				Knowledge knowledge = recreateKnowledge(c);
+				knowledges.add(knowledge);
 			}
 		} finally {
 			c.close();
 		}
-		return questions;
+		return knowledges;
 	}
 
-	private Question recreateQuestion(Cursor c) {
-		Question question = new Question();
-		question.text = c.getString(c.getColumnIndex(DBMetaData.QUESTION_TEXT));
-		question.answer_id = c.getInt(c
-				.getColumnIndex(DBMetaData.QUESTION_ANSWER_ID));
-		question.create_time = c.getLong(c
-				.getColumnIndex(DBMetaData.QUESTION_CREATE_TIME));
-		return question;
-	}
-
-	public Answer findAnswerById(long answer_id) {
-		Cursor c = db.findAnswerById(answer_id);
-		if (null == c)
-			return null;
-		try {
-			if (c.moveToFirst()) {
-				Answer answer = recreateAnswer(c);
-				return answer;
-			}
-		} finally {
-			c.close();
-		}
-		return null;
-	}
-
-	private Answer recreateAnswer(Cursor c) {
-		Answer answer = new Answer();
-		answer.text = c.getString(c.getColumnIndex(DBMetaData.ANSWER_TEXT));
-		return answer;
+	private Knowledge recreateKnowledge(Cursor c) {
+		Knowledge knowledge = new Knowledge();
+		knowledge.question = c.getString(c.getColumnIndex(DBMetaData.KNOWLEDGE_QUESTION));
+		knowledge.answer = c.getString(c.getColumnIndex(DBMetaData.KNOWLEDGE_ANSWER));
+		knowledge.create_time = c.getLong(c
+				.getColumnIndex(DBMetaData.KNOWLEDGE_CREATE_TIME));
+		return knowledge;
 	}
 }

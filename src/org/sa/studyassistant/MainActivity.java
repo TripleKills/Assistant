@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.questions_aty);
 		
 		ListView list = (ListView) findViewById(R.id.questions_aty_list);
-		question_adapter = new QuestionsAdapter(AssistantDAO.getInstance().findDefaultQuestion(), this);
+		question_adapter = new QuestionsAdapter(AssistantDAO.getInstance().findDefaultKnowledegs(), this);
 		//testAddKnowledges();
 		list.setAdapter(question_adapter);
 		list.setOnItemClickListener(new OnItemClickListener() {
@@ -78,7 +78,6 @@ public class MainActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
