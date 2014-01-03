@@ -3,7 +3,7 @@ package org.sa.studyassistant.adapter;
 import java.util.List;
 
 import org.sa.studyassistant.R;
-import org.sa.studyassistant.model.Question;
+import org.sa.studyassistant.model.Knowledge;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -14,10 +14,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class QuestionsAdapter extends BaseAdapter {
-	private List<Question> questions;
+	private List<Knowledge> questions;
 	private Context mContext;
 
-	public QuestionsAdapter(List<Question> questions, Context mContext) {
+	public QuestionsAdapter(List<Knowledge> questions, Context mContext) {
 		super();
 		this.questions = questions;
 		this.mContext = mContext;
@@ -51,8 +51,8 @@ public class QuestionsAdapter extends BaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		
-		Question question = (Question) getItem(position);
-		holder.text.setText(question.text);
+		Knowledge question = (Knowledge) getItem(position);
+		holder.text.setText(question.question);
 		holder.tag.setVisibility(View.VISIBLE);
 		
 		return convertView;

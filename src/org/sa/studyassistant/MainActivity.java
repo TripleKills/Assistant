@@ -1,13 +1,8 @@
 package org.sa.studyassistant;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.sa.studyassistant.adapter.QuestionsAdapter;
 import org.sa.studyassistant.db.AssistantDAO;
-import org.sa.studyassistant.model.Answer;
 import org.sa.studyassistant.model.Knowledge;
-import org.sa.studyassistant.model.Question;
 import org.sa.studyassistant.util.SessionManager;
 
 import android.app.Activity;
@@ -39,9 +34,8 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
 					long arg3) {
-				Question question = (Question) arg0.getAdapter().getItem(arg2);
-				Answer answer = AssistantDAO.getInstance().findAnswer(question);
-				SessionManager.getInstance().put("answer", answer);
+				Knowledge question = (Knowledge) arg0.getAdapter().getItem(arg2);
+				SessionManager.getInstance().put("answer", question);
 				startActivity(new Intent(MainActivity.this, AnswerActivity.class));
 			}
 		});
@@ -55,27 +49,6 @@ public class MainActivity extends Activity {
 		});
 	}
 	
-	private List<Question> testQuestions() {
-		List<Question> questions = new ArrayList<Question>();
-		for (int i = 0; i < 50; i++) {
-			Question question = new Question();
-			question.text = "question " + i;
-			questions.add(question);
-		}
-		return questions;
-	}
-	
-	private void testAddKnowledges() {
-		for (int i = 0; i < 50; i++) {
-			Question question = new Question();
-			question.text = "question " + i;
-			Answer ans = new Answer();
-			ans.text = "answer " + i;
-			Knowledge kn = new Knowledge(ans, question, null);
-			AssistantDAO.getInstance().insertKnowledge(kn);
-		}
-	}
-
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
