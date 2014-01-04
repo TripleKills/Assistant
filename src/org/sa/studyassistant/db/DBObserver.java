@@ -6,8 +6,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
+import org.sa.studyassistant.util.Logger;
+
+import android.text.TextUtils;
+
 public class DBObserver implements DBListener {
 
+	private static final String tag = DBObserver.class.getName();
 	private List<DBListener> observers = new ArrayList<DBListener>();
 	public static final String KEY_ACTION = "action";
 	public static final String KEY_CATEGORY = "category";
@@ -35,6 +40,21 @@ public class DBObserver implements DBListener {
 
 	public boolean unregist(DBListener lsnr) {
 		return observers.remove(lsnr);
+	}
+
+	public boolean unregist(String name) {
+		if (TextUtils.isEmpty(name)) return false;
+		DBListener target = null;
+		for (DBListener listener : observers) {
+			if (listener instanceof PriorityListener) {
+				PriorityListener lsnr = (PriorityListener) listener;
+				if (name.equals(lsnr.getName())) {
+					target = lsnr;
+				}
+			}
+		}
+		Logger.i(tag, "unregist " + name);
+		return observers.remove(target);
 	}
 
 	public boolean onAction(Map<String, Object> data) {
@@ -67,29 +87,6 @@ public class DBObserver implements DBListener {
 			return lhs.getPriority() - rhs.getPriority();
 		}
 	};
-
-
-	public static abstract class PriorityListener implements DBListener {
-		private int prioirty = 0;
-
-		public abstract boolean onAction(Map<String, Object> data);
-
-		@Override
-		public int getPriority() {
-			return prioirty;
-		}
-
-		@Override
-		public int setPriority(int prioirty) {
-			return this.prioirty = prioirty;
-		}
-
-		@Override
-		public String getName() {
-			return "default";
-		}
-	}
-
 
 	@Override
 	public int getPriority() {

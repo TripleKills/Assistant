@@ -59,6 +59,10 @@ public class AssistantDAO extends DBObserver {
 	public List<Category> findFirstLevelCategorys() {
 		return save.findFirstLevlCategorys();
 	}
+	
+	public List<Category> findChildCategorys(Category category) {
+		return save.findChildCategorys(category);
+	}
 
 	public List<Category> findAllCategory() {
 		return save.findAllCategory();
