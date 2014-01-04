@@ -1,7 +1,5 @@
 package org.sa.studyassistant.db;
 
-import org.sa.studyassistant.model.Category;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;

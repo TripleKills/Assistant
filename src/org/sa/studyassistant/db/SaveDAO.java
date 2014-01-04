@@ -7,7 +7,6 @@ import java.util.Map;
 
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Knowledge;
-import org.sa.studyassistant.util.Logger;
 
 import android.content.Context;
 import android.database.Cursor;

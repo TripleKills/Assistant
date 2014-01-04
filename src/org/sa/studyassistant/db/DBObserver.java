@@ -10,7 +10,7 @@ import org.sa.studyassistant.util.Logger;
 
 import android.text.TextUtils;
 
-public class DBObserver implements DBListener {
+public class DBObserver extends DBListener {
 
 	private static final String tag = DBObserver.class.getName();
 	private List<DBListener> observers = new ArrayList<DBListener>();
@@ -43,14 +43,12 @@ public class DBObserver implements DBListener {
 	}
 
 	public boolean unregist(String name) {
-		if (TextUtils.isEmpty(name)) return false;
+		if (TextUtils.isEmpty(name))
+			return false;
 		DBListener target = null;
 		for (DBListener listener : observers) {
-			if (listener instanceof PriorityListener) {
-				PriorityListener lsnr = (PriorityListener) listener;
-				if (name.equals(lsnr.getName())) {
-					target = lsnr;
-				}
+			if (name.equals(listener.getName())) {
+				target = listener;
 			}
 		}
 		Logger.i(tag, "unregist " + name);
@@ -87,20 +85,5 @@ public class DBObserver implements DBListener {
 			return lhs.getPriority() - rhs.getPriority();
 		}
 	};
-
-	@Override
-	public int getPriority() {
-		return 0;
-	}
-
-	@Override
-	public int setPriority(int prioirty) {
-		return 0;
-	}
-
-	@Override
-	public String getName() {
-		return "dbobserver";
-	}
 
 }

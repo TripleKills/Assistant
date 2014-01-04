@@ -7,7 +7,7 @@ import org.sa.studyassistant.adapter.CategoryAdapter;
 import org.sa.studyassistant.component.CategoryLongClickListener;
 import org.sa.studyassistant.db.AssistantDAO;
 import org.sa.studyassistant.db.DBObserver;
-import org.sa.studyassistant.db.PriorityListener;
+import org.sa.studyassistant.db.DBListener;
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.util.ToastUtil;
 import org.sa.studyassistant.view.EditDialog;
@@ -72,7 +72,7 @@ public class CategoryActivity extends Activity implements OnClickListener {
 	}
 
 	private void init() {
-		AssistantDAO.getInstance().regist(new PriorityListener() {
+		AssistantDAO.getInstance().regist(new DBListener() {
 
 			@Override
 			public boolean onAction(Map<String, Object> data) {
