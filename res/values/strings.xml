@@ -6,5 +6,20 @@
     <string name="hello_world">Hello world!</string>
     
     <string name="no_title">无标题笔记</string>
+    <string name="category_act_add">添加类目</string>
+    <string name="title_add_category">添加类目</string>
+    <string name="button_confirm">确定</string>
+    <string name="button_cancel">取消</string>
+    <string name="notify_add_success">添加成功</string>
+    <string name="notify_add_fail">添加失败</string>
+    <string name="notify_delete_success">删除成功</string>
+    <string name="notify_delete_fail">删除失败</string>
+    <string-array name="dialog_cateroy_option">
+        <item>编辑</item>
+        <item>删除</item>
+    </string-array>
+    <string name="category_act_modity">修改名称</string>
+    <string name="notify_modity_success">修改成功</string>
+    <string name="notify_modity_fail">修改失败</string>
 
 </resources>

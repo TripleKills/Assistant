@@ -9,6 +9,11 @@ import java.util.Map;
 public class DBObserver implements DBListener {
 
 	private List<DBListener> observers = new ArrayList<DBListener>();
+	public static final String KEY_ACTION = "action";
+	public static final String KEY_CATEGORY = "category";
+	public static final String ACTION_INSERT_CATEGORY = "action_insert_category";
+	public static final String ACTION_DELETE_CATEGORY = "action_delete_category";
+	public static final String ACTION_UPDATE_CATEGORY = "action_update_category";
 
 	public boolean registMax(DBListener lsnr) {
 		if (null == lsnr)
@@ -64,7 +69,7 @@ public class DBObserver implements DBListener {
 	};
 
 
-	public abstract class PriorityListener implements DBListener {
+	public static abstract class PriorityListener implements DBListener {
 		private int prioirty = 0;
 
 		public abstract boolean onAction(Map<String, Object> data);

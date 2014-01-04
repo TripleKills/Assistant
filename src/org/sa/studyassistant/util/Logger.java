@@ -14,7 +14,7 @@ import android.util.Log;
 public class Logger {
 
 	private static final boolean DEBUG = true;
-	private static final String DIR = "/mnt/sdcard/tblin/assistant/";
+	private static final String DIR = "/mnt/sdcard/assistant/";
 	private static PrintStream fos;
 	private static final String TAG = Logger.class.toString();
 

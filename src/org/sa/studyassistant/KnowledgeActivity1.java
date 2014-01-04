@@ -13,8 +13,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-public class KnowledgeActivity extends Activity {
-	private static final String tag = KnowledgeActivity.class.getName();
+public class KnowledgeActivity1 extends Activity {
+	private static final String tag = KnowledgeActivity1.class.getName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

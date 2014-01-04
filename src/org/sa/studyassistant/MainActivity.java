@@ -24,7 +24,7 @@ public class MainActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.questions_aty);
-		
+		startActivity(new Intent(this, CategoryActivity.class));
 		ListView list = (ListView) findViewById(R.id.questions_aty_list);
 		question_adapter = new QuestionsAdapter(AssistantDAO.getInstance().findDefaultKnowledegs(), this);
 		//testAddKnowledges();
@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
 			
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(v.getContext(), KnowledgeActivity.class));
+				startActivity(new Intent(v.getContext(), KnowledgeActivity1.class));
 			}
 		});
 	}

@@ -1,5 +1,7 @@
 package org.sa.studyassistant.db;
 
+import org.sa.studyassistant.model.Category;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -54,10 +56,22 @@ public class SaveDB extends SQLiteOpenHelper {
 		return getWritableDatabase().insert(DBMetaData.KNOWLEDGE_TABLE_NAME,
 				null, values);
 	}
+	
+	public int deleteCategorysByCategory(int category_id) {
+		return deleteBy(DBMetaData.CATEGORY_TABLE_NAME, DBMetaData.CATEGORY_BELONG_TO, String.valueOf(category_id));
+	}
+	
+	public int deleteKnowledgesByCategory(int category_id) {
+		return deleteBy(DBMetaData.KNOWLEDGE_TABLE_NAME, DBMetaData.KNOWLEDGE_CATEGORY_ID, String.valueOf(category_id));
+	}
 
 	public Cursor findKnowledgesByCategory(int category_id) {
 		return findBy(DBMetaData.KNOWLEDGE_TABLE_NAME,
 				DBMetaData.KNOWLEDGE_CATEGORY_ID, String.valueOf(category_id));
+	}
+	
+	public int deleteCategory(int category_id) {
+		return deleteBy(DBMetaData.CATEGORY_TABLE_NAME, "_id", String.valueOf(category_id));
 	}
 
 	// apis for category
@@ -74,6 +88,20 @@ public class SaveDB extends SQLiteOpenHelper {
 	public Cursor findAllCategory() {
 		return findAll(DBMetaData.CATEGORY_TABLE_NAME);
 	}
+	
+	public Cursor findFirstLevelCategorys() {
+		return findBy(DBMetaData.CATEGORY_TABLE_NAME, DBMetaData.CATEGORY_BELONG_TO, "-1");
+	}
+	
+	public Cursor findCategorysByCategory(int category_id) {
+		return findBy(DBMetaData.CATEGORY_TABLE_NAME, DBMetaData.CATEGORY_BELONG_TO, String.valueOf(category_id));
+	}
+	
+	public int updateCategoryName(String name, int category_id) {
+		ContentValues values = new ContentValues();
+		values.put(DBMetaData.CATEGORY_NAME, name);
+		return updateBy(DBMetaData.CATEGORY_TABLE_NAME, values, "_id", String.valueOf(category_id));
+	}
 
 	// apis for all tables
 	private Cursor findAll(String table_name) {
@@ -88,6 +116,14 @@ public class SaveDB extends SQLiteOpenHelper {
 		String sql = "select * from " + table_name + " where " + key + "=?";
 		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { value });
 		return c;
+	}
+	
+	private int deleteBy(String table_name, String key, String value) {
+		return getWritableDatabase().delete(table_name, key + "=?", new String[] {value});
+	}
+	
+	private int updateBy(String table_name, ContentValues values, String key, String value) {
+		return getWritableDatabase().update(table_name, values, key + "=?", new String[] {value});
 	}
 
 }
