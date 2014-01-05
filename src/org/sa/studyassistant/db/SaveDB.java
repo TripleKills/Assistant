@@ -42,7 +42,7 @@ public class SaveDB extends SQLiteOpenHelper {
 	}
 
 	// apis for knowledge
-	public long insertKnowledge(String answer, int category_id, String question,
+	public int insertKnowledge(String answer, int category_id, String question,
 			long create_time) {
 		if ((null == question && null == answer) || category_id < 0)
 			return -1;
@@ -51,7 +51,7 @@ public class SaveDB extends SQLiteOpenHelper {
 		values.put(DBMetaData.KNOWLEDGE_CATEGORY_ID, category_id);
 		values.put(DBMetaData.KNOWLEDGE_QUESTION, question);
 		values.put(DBMetaData.KNOWLEDGE_CREATE_TIME, create_time);
-		return getWritableDatabase().insert(DBMetaData.KNOWLEDGE_TABLE_NAME,
+		return (int) getWritableDatabase().insert(DBMetaData.KNOWLEDGE_TABLE_NAME,
 				null, values);
 	}
 	

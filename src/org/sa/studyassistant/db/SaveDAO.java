@@ -7,13 +7,14 @@ import java.util.Map;
 
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Knowledge;
+import org.sa.studyassistant.util.Logger;
 
 import android.content.Context;
 import android.database.Cursor;
 
 public class SaveDAO extends DBObserver {
 	private SaveDB db;
-	// private static final String tag = SaveDAO.class.getName();
+	private static final String tag = SaveDAO.class.getName();
 	private static final int DEFAULT_CATEGORY_ID = -2;
 
 	public SaveDAO(Context context) {
@@ -47,6 +48,7 @@ public class SaveDAO extends DBObserver {
 	}
 	
 	public int deleteKnowledgesByCategory(Category category) {
+		Logger.i(tag, "deleteKnowledgesByCategory:" + category.category_id);
 		return db.deleteKnowledgesByCategory(category.category_id);
 	}
 
@@ -59,8 +61,15 @@ public class SaveDAO extends DBObserver {
 		int category_id = DEFAULT_CATEGORY_ID;
 		if (null != knowledge.category)
 			category_id = knowledge.category.category_id;
-		return db.insertKnowledge(knowledge.answer, category_id,
+		int result = db.insertKnowledge(knowledge.answer, category_id,
 				knowledge.question, knowledge.create_time);
+		if (result != -1) {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put(KEY_ACTION, ACTION_INSERT_KNOWLEDGE);
+			data.put(KEY_KNOWLEDGE, knowledge);
+			onAction(data);
+		}
+		return result;
 	}
 
 	public int getDefaultKnowledgeId() {

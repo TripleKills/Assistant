@@ -3,7 +3,6 @@ package org.sa.studyassistant.adapter;
 import java.util.List;
 
 import org.sa.studyassistant.model.Category;
-import org.sa.studyassistant.util.Logger;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -55,7 +54,6 @@ public class CategoryAdapter extends BaseAdapter {
 			arg1.setTag(holder);
 		}
 		holder.text_view.setText(category.name);
-		Logger.i("CategoryAdapter", "getView");
 		return arg1;
 	}
 

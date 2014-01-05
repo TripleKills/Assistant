@@ -4,7 +4,6 @@ import org.sa.studyassistant.db.AssistantDAO;
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Knowledge;
 import org.sa.studyassistant.util.Logger;
-import org.sa.studyassistant.util.SessionManager;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -13,15 +12,15 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 
-public class KnowledgeActivity1 extends Activity {
-	private static final String tag = KnowledgeActivity1.class.getName();
-
+public class KnowledgeEditActivity extends Activity {
+	private static final String tag = KnowledgeEditActivity.class.getName();
+	private Category category;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.aty_add_knowledge);
-		final Category category = (Category) SessionManager.getInstance()
-				.remove("category");
+		category = (Category) getIntent().getSerializableExtra("category");
 		findViewById(R.id.aty_add_knowledge_cancel).setOnClickListener(
 				new OnClickListener() {
 
@@ -49,6 +48,7 @@ public class KnowledgeActivity1 extends Activity {
 						Knowledge knowledge = new Knowledge();
 						knowledge.answer = text;
 						knowledge.question = title;
+						knowledge.category = category;
 						Logger.i(tag, String.format("question: %s, answer: %s",
 								new Object[] { text, title }));
 						AssistantDAO.getInstance().insertKnowledge(knowledge);

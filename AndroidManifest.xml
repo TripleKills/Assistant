@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity android:name="AnswerActivity"></activity>
-        <activity android:name="KnowledgeActivity1"></activity>
+        <activity android:name="KnowledgeEditActivity"></activity>
         <activity android:name="CategoryActivity"></activity>
         <activity android:name="KnowledgeActivity"></activity>
     </application>

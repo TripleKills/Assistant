@@ -16,9 +16,13 @@ public class DBObserver extends DBListener {
 	private List<DBListener> observers = new ArrayList<DBListener>();
 	public static final String KEY_ACTION = "action";
 	public static final String KEY_CATEGORY = "category";
+	public static final String KEY_KNOWLEDGE = "knowledge";
 	public static final String ACTION_INSERT_CATEGORY = "action_insert_category";
 	public static final String ACTION_DELETE_CATEGORY = "action_delete_category";
 	public static final String ACTION_UPDATE_CATEGORY = "action_update_category";
+	public static final String ACTION_INSERT_KNOWLEDGE = "action_insert_knowledge";
+	public static final String ACTION_DELETE_KNOWLEDGE = "action_delete_knowledge";
+	public static final String ACTION_UPDATE_KNOWLEDGE = "action_update_knowledge";
 
 	public boolean registMax(DBListener lsnr) {
 		if (null == lsnr)

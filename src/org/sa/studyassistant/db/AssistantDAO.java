@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Knowledge;
+import org.sa.studyassistant.util.Logger;
 
 import android.content.Context;
 
@@ -11,6 +12,7 @@ public class AssistantDAO extends DBObserver {
 	private static AssistantDAO _inst;
 	private TraceDAO trace;
 	private SaveDAO save;
+	private static final String tag = AssistantDAO.class.getName();
 
 	private AssistantDAO() {
 	}
@@ -42,13 +44,19 @@ public class AssistantDAO extends DBObserver {
 		}
 		int result = save.deleteCategory(category);
 		save.deleteKnowledgesByCategory(category);
+		Logger.i(tag, "delete category:" + category.category_id);
 		return result != -1;
 	}
 	
 	public boolean insertCategory(String name) {
 		Category category = new Category();
 		category.name = name;
-		return save.insertCategory(category) != -1;
+		return insertCategory(category);
+	}
+	
+	public boolean insertCategory(Category category) {
+		int result = save.insertCategory(category);
+		return result != -1;
 	}
 	
 	public boolean updateCategoryName(Category category, String name) {

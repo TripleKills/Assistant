@@ -13,24 +13,28 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class QuestionsAdapter extends BaseAdapter {
-	private List<Knowledge> questions;
+public class KnowledgeAdapter extends BaseAdapter {
+	private List<Knowledge> knowledges;
 	private Context mContext;
 
-	public QuestionsAdapter(List<Knowledge> questions, Context mContext) {
+	public KnowledgeAdapter(List<Knowledge> questions, Context mContext) {
 		super();
-		this.questions = questions;
+		this.knowledges = questions;
 		this.mContext = mContext;
+	}
+
+	public List<Knowledge> getKnowledges() {
+		return knowledges;
 	}
 
 	@Override
 	public int getCount() {
-		return questions.size();
+		return knowledges.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return questions.get(position);
+		return knowledges.get(position);
 	}
 
 	@Override
@@ -40,24 +44,28 @@ public class QuestionsAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
-		if (null == convertView) {
+		ViewHolder holder = (ViewHolder) (null == convertView ? null
+				: convertView.getTag());
+		if (null == holder) {
 			holder = new ViewHolder();
-			convertView = LayoutInflater.from(mContext).inflate(R.layout.questions_adapter, null);
-			holder.text = (TextView) convertView.findViewById(R.id.questions_adapter_text);
-			holder.tag = (ImageView) convertView.findViewById(R.id.questions_adapter_tag);
+			convertView = LayoutInflater.from(mContext).inflate(
+					R.layout.questions_adapter, null);
+			holder.text = (TextView) convertView
+					.findViewById(R.id.questions_adapter_text);
+			holder.tag = (ImageView) convertView
+					.findViewById(R.id.questions_adapter_tag);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		
+
 		Knowledge question = (Knowledge) getItem(position);
 		holder.text.setText(question.question);
 		holder.tag.setVisibility(View.VISIBLE);
-		
+
 		return convertView;
 	}
-	
+
 	private class ViewHolder {
 		public TextView text;
 		public ImageView tag;
