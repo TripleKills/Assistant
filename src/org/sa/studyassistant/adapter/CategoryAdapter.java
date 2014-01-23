@@ -3,6 +3,7 @@ package org.sa.studyassistant.adapter;
 import java.util.List;
 
 import org.sa.studyassistant.model.Category;
+import org.sa.studyassistant.util.StringUtil;
 
 import android.content.Context;
 import android.util.TypedValue;
@@ -49,11 +50,12 @@ public class CategoryAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			TextView textview = new TextView(mContext);
 			textview.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			textview.setPadding(15, 15, 0, 15);
 			holder.text_view = textview;
 			arg1 = textview;
 			arg1.setTag(holder);
 		}
-		holder.text_view.setText(category.name);
+		holder.text_view.setText(StringUtil.removeTailLine(category.name));
 		return arg1;
 	}
 

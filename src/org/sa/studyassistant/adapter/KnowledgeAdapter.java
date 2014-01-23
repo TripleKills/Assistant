@@ -4,8 +4,11 @@ import java.util.List;
 
 import org.sa.studyassistant.R;
 import org.sa.studyassistant.model.Knowledge;
+import org.sa.studyassistant.util.Logger;
+import org.sa.studyassistant.util.StringUtil;
 
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 public class KnowledgeAdapter extends BaseAdapter {
 	private List<Knowledge> knowledges;
 	private Context mContext;
+	private static final String tag = KnowledgeAdapter.class.getName();
 
 	public KnowledgeAdapter(List<Knowledge> questions, Context mContext) {
 		super();
@@ -52,23 +56,23 @@ public class KnowledgeAdapter extends BaseAdapter {
 					R.layout.questions_adapter, null);
 			holder.text = (TextView) convertView
 					.findViewById(R.id.questions_adapter_text);
-			holder.tag = (ImageView) convertView
-					.findViewById(R.id.questions_adapter_tag);
+		//	holder.tag = (ImageView) convertView
+		//			.findViewById(R.id.questions_adapter_tag);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 
 		Knowledge question = (Knowledge) getItem(position);
-		holder.text.setText(question.question);
-		holder.tag.setVisibility(View.VISIBLE);
+		holder.text.setText(StringUtil.removeTailLine(question.question));
+	//	holder.tag.setVisibility(View.VISIBLE);
 
 		return convertView;
 	}
 
 	private class ViewHolder {
 		public TextView text;
-		public ImageView tag;
+	//	public ImageView tag;
 	}
 
 }
