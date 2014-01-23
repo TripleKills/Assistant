@@ -9,12 +9,13 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import android.os.Environment;
 import android.util.Log;
 
 public class Logger {
 
 	private static final boolean DEBUG = true;
-	private static final String DIR = "/mnt/sdcard/assistant/";
+	private static final String DIR = Environment.getExternalStorageDirectory().getAbsolutePath() + "/assistant/";
 	private static PrintStream fos;
 	private static final String TAG = Logger.class.toString();
 
@@ -23,7 +24,7 @@ public class Logger {
 			return false;
 		}
 		if (DEBUG) {
-			Log.d(TAG, "open");
+			Log.d(TAG, "open: " + DIR);
 		}
 		LogManager.work();
 		try {
@@ -35,9 +36,10 @@ public class Logger {
 			fos = new PrintStream(new FileOutputStream(f, true));
 			return true;
 		} catch (Exception e) {
-			if (DEBUG) {
-				Log.e(TAG, e.toString());
-			}
+			//if (DEBUG) {
+			//	Log.e(TAG, e.toString());
+			//}
+			e.printStackTrace();
 			return false;
 		}
 	}
