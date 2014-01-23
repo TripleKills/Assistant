@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <Button
+        android:id="@+id/main_aty_index"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/index" />
+    
+    <RelativeLayout android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:id="@+id/main_aty_show"
+        android:layout_above="@id/main_aty_index">
+        
+        <Button android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:id="@+id/main_aty_check"
+            android:layout_alignParentBottom="true"
+            android:text="@string/check"/>
+        
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:id="@+id/main_aty_q"/>
+        
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="fill_parent"
+            android:id="@+id/main_aty_a"
+            android:layout_below="@id/main_aty_q"
+            android:layout_centerHorizontal="true"
+            android:text="@string/click_check_answer"
+            android:layout_above="@id/main_aty_check"/>
+        
+    </RelativeLayout>
+
+    <TextView android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:gravity="center"
+        android:text="@string/no_knowledge"
+        android:id="@+id/main_aty_no_knowledge"/>
+</RelativeLayout>

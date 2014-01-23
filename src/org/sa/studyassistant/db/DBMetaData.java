@@ -21,6 +21,6 @@ public class DBMetaData {
 	public static final String TRACE_TABLE_NAME = "trace";
 	public static final String TRACE_ITEM_ID = "item_id";
 	public static final String TRACE_ACTION = "action";
-	public static final String TRACE_PHRASE = "phrase";
+	public static final String TRACE_PHRASE = "phase";
 	public static final String TRACE_TIME = "time";
 }

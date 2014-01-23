@@ -5,6 +5,12 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     
+    <string name="index">主页</string>
+    <string name="no_knowledge">目前没有笔记，赶紧添加笔记吧</string>
+    <string name="click_check_answer">点击查看答案</string>
+    <string name="check">check</string>
+    <string name="no_more_knowledge">没有更多的笔记</string>
+    
     <string name="no_title">无标题笔记</string>
     <string name="category_act_add">添加类目</string>
     <string name="title_add_category">添加类目</string>

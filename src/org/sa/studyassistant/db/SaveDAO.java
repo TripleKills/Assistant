@@ -20,6 +20,10 @@ public class SaveDAO extends DBObserver {
 	public SaveDAO(Context context) {
 		db = new SaveDB(context);
 	}
+	
+	public Cursor getAllKnowledgeAfter(long time) {
+		return db.getAllKnowledgeAfter(time);
+	}
 
 	public int insertCategory(Category category) {
 		int belong_to = -1;
@@ -137,7 +141,7 @@ public class SaveDAO extends DBObserver {
 		return knowledges;
 	}
 
-	private Knowledge recreateKnowledge(Cursor c) {
+	public Knowledge recreateKnowledge(Cursor c) {
 		Knowledge knowledge = new Knowledge();
 		knowledge.question = c.getString(c
 				.getColumnIndex(DBMetaData.KNOWLEDGE_QUESTION));
@@ -145,6 +149,7 @@ public class SaveDAO extends DBObserver {
 				.getColumnIndex(DBMetaData.KNOWLEDGE_ANSWER));
 		knowledge.create_time = c.getLong(c
 				.getColumnIndex(DBMetaData.KNOWLEDGE_CREATE_TIME));
+		knowledge._id = c.getInt(c.getColumnIndex("_id"));
 		return knowledge;
 	}
 }

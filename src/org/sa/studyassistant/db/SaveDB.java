@@ -1,5 +1,7 @@
 package org.sa.studyassistant.db;
 
+import org.sa.studyassistant.util.DBUtil;
+
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
@@ -71,6 +73,12 @@ public class SaveDB extends SQLiteOpenHelper {
 	public int deleteCategory(int category_id) {
 		return deleteBy(DBMetaData.CATEGORY_TABLE_NAME, "_id", String.valueOf(category_id));
 	}
+	
+	public Cursor getAllKnowledgeAfter(long time) {
+		String sql = "select * from " + DBMetaData.KNOWLEDGE_TABLE_NAME + " where " + DBMetaData.KNOWLEDGE_CREATE_TIME + ">?";
+		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(time) });
+		return c;
+	}
 
 	// apis for category
 	public int insertCategory(String name, int belong_to) {
@@ -103,25 +111,19 @@ public class SaveDB extends SQLiteOpenHelper {
 
 	// apis for all tables
 	private Cursor findAll(String table_name) {
-		String sql = "select * from " + table_name;
-		Cursor c = getReadableDatabase().rawQuery(sql, null);
-		return c;
+		return DBUtil.findAll(this, table_name);
 	}
-
+	
 	private Cursor findBy(String table_name, String key, String value) {
-		if (TextUtils.isEmpty(table_name) || TextUtils.isEmpty(key))
-			return null;
-		String sql = "select * from " + table_name + " where " + key + "=?";
-		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { value });
-		return c;
+		return DBUtil.findBy(this, table_name, key, value);
 	}
 	
 	private int deleteBy(String table_name, String key, String value) {
-		return getWritableDatabase().delete(table_name, key + "=?", new String[] {value});
+		return DBUtil.deleteBy(this, table_name, key, value);
 	}
 	
 	private int updateBy(String table_name, ContentValues values, String key, String value) {
-		return getWritableDatabase().update(table_name, values, key + "=?", new String[] {value});
+		return DBUtil.updateBy(this, table_name, values, key, value);
 	}
 
 }

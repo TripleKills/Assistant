@@ -7,7 +7,7 @@ databases:
 		
 	trace_db
 	  trace
-	  	_id(INTEGER), item_id(INTEGER), time(LONG), action(TEXT), phrase(INTEGER)
+	  	_id(INTEGER), item_id(INTEGER), time(LONG), action(TEXT), phase(INTEGER)
 	  	#action:notification_show, main_show, ... notification_check, main_check, ...
 
 艾宾浩斯记忆曲线
