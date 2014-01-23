@@ -58,7 +58,7 @@ public class MainActivity extends Activity {
 								KnowledgeEditActivity.class));
 					}
 				});
-		testparse();
+		//testparse();
 	}
 
 	@Override

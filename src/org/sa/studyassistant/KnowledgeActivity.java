@@ -16,6 +16,9 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 
 public class KnowledgeActivity extends CategoryActivity {
 	private Category category;
@@ -95,6 +98,7 @@ public class KnowledgeActivity extends CategoryActivity {
 	private void setKnowledgeView() {
 		KnowledgeAdapter adapter = new KnowledgeAdapter(getKnowledges(), this);
 		list_view.setAdapter(adapter);
+		setKnowledgeItemClickEvent();
 	}
 
 	private void refreshViews() {
@@ -103,6 +107,7 @@ public class KnowledgeActivity extends CategoryActivity {
 			setCategoryViewEmpty();
 		} else if (getStatus().equals("knowledge")) {
 			setKnowledgeViewEmpty();
+			setKnowledgeItemClickEvent();
 		}
 	}
 
@@ -116,6 +121,30 @@ public class KnowledgeActivity extends CategoryActivity {
 		KnowledgeAdapter adapter = new KnowledgeAdapter(
 				new ArrayList<Knowledge>(), this);
 		list_view.setAdapter(adapter);
+	}
+	
+	private void setKnowledgeItemClickEvent() {
+		list_view.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+				Intent it = new Intent(arg0.getContext(),
+						KnowledgeEditActivity.class);
+				it.putExtra("knowledge",
+						(Knowledge) arg0.getAdapter().getItem(arg2));
+				startActivity(it);
+			}
+		});
+		list_view.setOnItemLongClickListener(new OnItemLongClickListener() {
+
+			@Override
+			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+					int arg2, long arg3) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		});
 	}
 
 	@Override

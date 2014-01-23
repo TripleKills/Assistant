@@ -5,7 +5,7 @@
 
     <EditText
         android:id="@+id/aty_add_knowledge_title"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
@@ -18,7 +18,7 @@
 
     <EditText
         android:id="@+id/aty_add_knowledge_text"
-        android:layout_width="wrap_content"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_below="@+id/aty_add_knowledge_title"
@@ -31,7 +31,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:text="Button" />
+        android:text="Return" />
 
     <Button
         android:id="@+id/aty_add_knowledge_save"
@@ -39,6 +39,14 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:text="save" />
+        android:text="Save" />
+
+    <Button
+        android:id="@+id/aty_add_knowledge_edit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Edit" />
 
 </RelativeLayout>
