@@ -16,12 +16,15 @@ public class Parser {
 		if (TextUtils.isEmpty(str))
 			return;
 		try {
-			JSONArray arr = new JSONArray(str);
+			JSONObject obj = new JSONObject(str);
+			String book_name = obj.getString("name");
+			Category book = createCategory(book_name);
+			JSONArray arr = obj.getJSONArray("chapter");
 			for (int i = 0; i < arr.length(); i++) {
 				JSONObject chapter = arr.getJSONObject(i);
 				String ch_name = chapter.getString("name");
 				Logger.i(tag, "ch_name: \n" + ch_name);
-				Category category = createCategory(ch_name);
+				Category category = createCategory(ch_name, book);
 				JSONArray qas = chapter.getJSONArray("qas");
 				for (int j = 0; j < qas.length(); j++) {
 					JSONObject qa = qas.getJSONObject(j);
@@ -46,8 +49,14 @@ public class Parser {
 	}
 	
 	private static Category createCategory(String name) {
+		return createCategory(name, null);
+	}
+	
+	private static Category createCategory(String name, Category belong_to) {
 		Category category = new Category();
 		category.name = name;
+		if (null != belong_to)
+			category.belong_to = belong_to.category_id;
 		AssistantDAO.getInstance().insertCategory(category);
 		return category;
 	}
