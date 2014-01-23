@@ -84,6 +84,87 @@ public class AssistantDAO extends DBObserver {
 		}
 		return target;
 	}
+	
+	
+	public Knowledge getCurrentUncheckKnowledge() {
+		Cursor c = save.getAllKnowledgeAfter(Ebbinghaus.getTimePassPoint());
+		return getCurrentUncheckKnowledgeByCursor(c);
+	}
+	
+	/**
+	 * 是否有当前phase还没有check的
+	 * @return
+	 */
+	public boolean hasThisCurrentUncheckKnowledge() {
+		return getCurrentUncheckKnowledge() != null;
+	}
+	
+	public boolean hasThisCurrentUncheckKnowledge(Category category) {
+		List<Category> children = save.findChildCategorys(category);
+		if (null == children || children.isEmpty()) {
+			return getCurrentUncheckKnowledgeNum(category) > 0;
+		} else {
+			for (Category child : children) {
+				if (hasThisCurrentUncheckKnowledge(child)) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+	
+	public int getCurrentUncheckKnowledgeNum(Category category) {
+		List<Category> children = save.findChildCategorys(category);
+		int uncheck_num = 0;
+		if (null == children || children.isEmpty()) {
+			Cursor c = save.getAllKnowledgeAfterByCategory(Ebbinghaus.getTimePassPoint(), category.category_id);
+			uncheck_num = getCurrentUncheckKnowledgeNumByCursor(c);
+		} else {
+			for (Category child : children) {
+				if (hasThisCurrentUncheckKnowledge(child)) {
+					uncheck_num += getCurrentUncheckKnowledgeNum(child);
+				}
+			}
+		}
+		return uncheck_num;
+	}
+	
+	protected Knowledge getCurrentUncheckKnowledgeByCursor(Cursor c) {
+		if (null == c)
+			return null;
+		try {
+			while (c.moveToNext()) {
+				Knowledge knowledge = save.recreateKnowledge(c);
+				Trace mTrace = trace.findByKnowledge(knowledge);
+				int current_phase = Ebbinghaus.getPhase(knowledge.create_time);
+				if (null == mTrace || mTrace.phase < current_phase) {
+					return knowledge;
+				}
+			}
+		} finally {
+			c.close();
+		}
+		return null;
+	}
+
+	protected int getCurrentUncheckKnowledgeNumByCursor(Cursor c) {
+		if (null == c)
+			return 0;
+		int count = 0;
+		try {
+			while (c.moveToNext()) {
+				Knowledge knowledge = save.recreateKnowledge(c);
+				Trace mTrace = trace.findByKnowledge(knowledge);
+				int current_phase = Ebbinghaus.getPhase(knowledge.create_time);
+				if (null == mTrace || mTrace.phase < current_phase) {
+					count++;
+				}
+			}
+		} finally {
+			c.close();
+		}
+		return count;
+	}
 
 	public boolean insertKnowledge(Knowledge knowledge) {
 		int result = (int) save.insertKnowledge(knowledge);

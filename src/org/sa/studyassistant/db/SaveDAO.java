@@ -24,6 +24,10 @@ public class SaveDAO extends DBObserver {
 	public Cursor getAllKnowledgeAfter(long time) {
 		return db.getAllKnowledgeAfter(time);
 	}
+	
+	public Cursor getAllKnowledgeAfterByCategory(long time, int category_id) {
+		return db.getAllKnowledgeAfterByCategory(time, category_id);
+	}
 
 	public int insertCategory(Category category) {
 		int belong_to = -1;

@@ -79,6 +79,13 @@ public class SaveDB extends SQLiteOpenHelper {
 		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(time) });
 		return c;
 	}
+	
+	public Cursor getAllKnowledgeAfterByCategory(long time, int category_id) {
+		String sql = "select * from " + DBMetaData.KNOWLEDGE_TABLE_NAME + " where " + DBMetaData.KNOWLEDGE_CREATE_TIME + ">?"
+				+ " and " + DBMetaData.KNOWLEDGE_CATEGORY_ID + "=?";
+		Cursor c = getReadableDatabase().rawQuery(sql, new String[] { String.valueOf(time), String.valueOf(category_id) });
+		return c;
+	}
 
 	// apis for category
 	public int insertCategory(String name, int belong_to) {

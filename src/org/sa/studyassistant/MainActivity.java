@@ -7,6 +7,8 @@ import org.sa.studyassistant.util.Logger;
 import org.sa.studyassistant.util.Parser;
 import org.sa.studyassistant.util.ToastUtil;
 
+import com.readystatesoftware.viewbadger.BadgeView;
+
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.os.Environment;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,6 +25,7 @@ public class MainActivity extends Activity {
 	private static final String tag = MainActivity.class.getName();
 	private RelativeLayout show;
 	private TextView question, answer, no_knowledge;
+	private Button toHome;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -39,8 +43,9 @@ public class MainActivity extends Activity {
 		question = (TextView) findViewById(R.id.main_aty_q);
 		answer = (TextView) findViewById(R.id.main_aty_a);
 		no_knowledge = (TextView) findViewById(R.id.main_aty_no_knowledge);
+		toHome = (Button) findViewById(R.id.main_aty_index);
 		setToHome(no_knowledge);
-		setToHome(findViewById(R.id.main_aty_index));
+		setToHome(toHome);
 		findViewById(R.id.main_aty_check).setOnClickListener(
 				new OnClickListener() {
 
@@ -57,6 +62,15 @@ public class MainActivity extends Activity {
 						}
 					}
 				});
+		
+		boolean has_uncheck = AssistantDAO.getInstance().hasThisCurrentUncheckKnowledge();
+		Logger.i(tag, "has uncheck?" + has_uncheck);
+		if (!has_uncheck) {
+			BadgeView badge1 = new BadgeView(this, toHome);
+			badge1.setText("12");
+		    badge1.setBadgePosition(BadgeView.POSITION_TOP_RIGHT);
+		    badge1.show();
+		}
 	}
 
 	private void initViews() {
