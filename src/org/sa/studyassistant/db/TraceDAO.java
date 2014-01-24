@@ -20,6 +20,10 @@ public class TraceDAO extends DBObserver {
 	public Trace findByKnowledge(Knowledge knowledge) {
 		return findByItemId(knowledge._id);
 	}
+	
+	public int deleteTrace(int item_id) {
+		return db.deleeteTrace(item_id);
+	}
 
 	public Trace findByItemId(int item_id) {
 		Cursor c = db.findByItemId(item_id);

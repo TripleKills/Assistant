@@ -55,6 +55,17 @@ public class SaveDAO extends DBObserver {
 		return result;
 	}
 	
+	public int deleteKnowledge(Knowledge knowledge) {
+		int result = db.deleteKnowledge(knowledge._id);
+		if (result != -1) {
+			Map<String, Object> data = new HashMap<String, Object>();
+			data.put(KEY_ACTION, ACTION_DELETE_KNOWLEDGE);
+			data.put(KEY_KNOWLEDGE, knowledge);
+			onAction(data);
+		}
+		return result;
+	}
+	
 	public int deleteKnowledgesByCategory(Category category) {
 		Logger.i(tag, "deleteKnowledgesByCategory:" + category.category_id);
 		return db.deleteKnowledgesByCategory(category.category_id);

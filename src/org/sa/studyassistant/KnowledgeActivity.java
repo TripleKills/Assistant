@@ -10,7 +10,9 @@ import org.sa.studyassistant.component.KnowledgeCategoryListDBListener.OnAction;
 import org.sa.studyassistant.db.AssistantDAO;
 import org.sa.studyassistant.model.Category;
 import org.sa.studyassistant.model.Knowledge;
+import org.sa.studyassistant.util.ToastUtil;
 
+import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -140,8 +142,31 @@ public class KnowledgeActivity extends CategoryActivity {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
-					int arg2, long arg3) {
-				// TODO Auto-generated method stub
+					final int arg2, long arg3) {
+				Builder builder = new Builder(arg0.getContext());
+				builder.setTitle(R.string.delete);
+				builder.setMessage(R.string.confirm_delete);
+				builder.setPositiveButton(R.string.button_confirm, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface arg0, int arg1) {
+						Knowledge knowledge = (Knowledge) ((KnowledgeAdapter)list_view.getAdapter()).getItem(arg2);
+						boolean result = AssistantDAO.getInstance().deleteTrace(knowledge);
+						if (result)
+							result = AssistantDAO.getInstance().deleteKnowledge(knowledge);
+						int resource = result ? R.string.notify_delete_success : R.string.notify_delete_fail;
+						ToastUtil.toast(resource);
+						arg0.dismiss();
+					}
+				});
+				builder.setNegativeButton(R.string.button_cancel, new DialogInterface.OnClickListener() {
+					
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+					}
+				});
+				builder.create().show();
 				return false;
 			}
 		});

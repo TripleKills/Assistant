@@ -57,6 +57,10 @@ public class SaveDB extends SQLiteOpenHelper {
 				null, values);
 	}
 	
+	public int deleteKnowledge(int _id) {
+		return DBUtil.deleteBy(this, DBMetaData.KNOWLEDGE_TABLE_NAME, "_id", String.valueOf(_id));
+	}
+	
 	public int deleteCategorysByCategory(int category_id) {
 		return deleteBy(DBMetaData.CATEGORY_TABLE_NAME, DBMetaData.CATEGORY_BELONG_TO, String.valueOf(category_id));
 	}

@@ -52,5 +52,9 @@ public class TraceDB extends SQLiteOpenHelper {
 		return (int) getWritableDatabase().insert(
 				DBMetaData.TRACE_TABLE_NAME, null, cv);
 	}
+	
+	public int deleeteTrace(int item_id) {
+		return DBUtil.deleteBy(this, DBMetaData.TRACE_TABLE_NAME, DBMetaData.TRACE_ITEM_ID, String.valueOf(item_id));
+	}
 
 }

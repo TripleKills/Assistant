@@ -35,6 +35,14 @@ public class AssistantDAO extends DBObserver {
 		trace.regist(this);
 	}
 	
+	public boolean deleteKnowledge(Knowledge knowledge) {
+		return save.deleteKnowledge(knowledge) != -1;
+	}
+	
+	public boolean deleteTrace(Knowledge knowledge) {
+		return trace.deleteTrace(knowledge._id) != -1;
+	}
+	
 	public boolean checkKnowledgeMain(Knowledge knowledge) {
 		return checkKnowledge(knowledge, TraceDB.ACTION_MAIN);
 	}

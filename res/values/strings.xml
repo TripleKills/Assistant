@@ -11,6 +11,9 @@
     <string name="check">check</string>
     <string name="no_more_knowledge">没有更多的笔记</string>
     
+    <string name="delete">删除</string>
+    <string name="confirm_delete">确定删除</string>
+    
     <string name="no_title">无标题笔记</string>
     <string name="category_act_add">添加类目</string>
     <string name="title_add_category">添加类目</string>
