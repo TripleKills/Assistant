@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
 		setContentView(R.layout.main_aty);
 		// startActivity(new Intent(this, CategoryActivity.class));
 
-		// testparse();
+		//testparse();
 		prepareViews();
 		initViews();
 	}

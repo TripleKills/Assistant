@@ -91,6 +91,12 @@ public class AssistantDAO extends DBObserver {
 		return getCurrentUncheckKnowledgeByCursor(c);
 	}
 	
+	public boolean isCurrentPhaseCheck(Knowledge knowledge) {
+		Trace mTrace = trace.findByKnowledge(knowledge);
+		int current_phase = Ebbinghaus.getPhase(knowledge.create_time);
+		return null != mTrace && mTrace.phase >= current_phase;
+	}
+	
 	/**
 	 * 是否有当前phase还没有check的
 	 * @return

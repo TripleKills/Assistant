@@ -3,12 +3,16 @@ package org.sa.studyassistant.adapter;
 import java.util.List;
 
 import org.sa.studyassistant.R;
+import org.sa.studyassistant.db.AssistantDAO;
 import org.sa.studyassistant.model.Knowledge;
 import org.sa.studyassistant.util.Logger;
 import org.sa.studyassistant.util.StringUtil;
 
+import com.readystatesoftware.viewbadger.BadgeView;
+
 import android.content.Context;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -65,6 +69,16 @@ public class KnowledgeAdapter extends BaseAdapter {
 
 		Knowledge question = (Knowledge) getItem(position);
 		holder.text.setText(StringUtil.removeTailLine(question.question));
+		if (!AssistantDAO.getInstance().isCurrentPhaseCheck(question)) {
+			if (null == holder.badge) {
+				holder.badge = new BadgeView(holder.text.getContext(), holder.text);
+				holder.badge.setBadgePosition(BadgeView.POSITION_BOTTOM_RIGHT);
+			}
+			holder.badge.setText(String.valueOf("1"));
+			holder.badge.show();
+		} else if (null != holder.badge) {
+			holder.badge.hide();
+		}
 	//	holder.tag.setVisibility(View.VISIBLE);
 
 		return convertView;
@@ -72,6 +86,7 @@ public class KnowledgeAdapter extends BaseAdapter {
 
 	private class ViewHolder {
 		public TextView text;
+		BadgeView badge;
 	//	public ImageView tag;
 	}
 

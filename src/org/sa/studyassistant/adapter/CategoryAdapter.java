@@ -68,16 +68,21 @@ public class CategoryAdapter extends BaseAdapter {
 		holder.text_view.setText(StringUtil.removeTailLine(category.name));
 		int uncheck_count = AssistantDAO.getInstance().getCurrentUncheckKnowledgeNum(category);
 		if (uncheck_count > 0) {
-			BadgeView badge1 = new BadgeView(holder.text_view.getContext(), holder.text_view);
-			badge1.setText(String.valueOf(uncheck_count));
-		    badge1.setBadgePosition(BadgeView.POSITION_BOTTOM_RIGHT);
-		    badge1.show();
+			if (null == holder.badge) {
+				holder.badge = new BadgeView(holder.text_view.getContext(), holder.text_view);
+				holder.badge.setBadgePosition(BadgeView.POSITION_BOTTOM_RIGHT);
+			}
+			holder.badge.setText(String.valueOf(uncheck_count));
+			holder.badge.show();
+		} else if (null != holder.badge) {
+			holder.badge.hide();
 		}
 		return arg1;
 	}
 
 	class ViewHolder {
 		TextView text_view;
+		BadgeView badge;
 	}
 
 }
