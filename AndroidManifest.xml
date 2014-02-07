@@ -36,6 +36,9 @@
                 <action android:name="org.sa.studyassistant.alarm" />
             </intent-filter>
             <intent-filter>
+                <action android:name="org.sa.studyassistant.active_alarm" />
+            </intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" >
                 </action>
             </intent-filter>

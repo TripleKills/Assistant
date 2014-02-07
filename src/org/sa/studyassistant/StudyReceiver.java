@@ -1,5 +1,6 @@
 package org.sa.studyassistant;
 
+import org.sa.studyassistant.util.AlarmSender;
 import org.sa.studyassistant.util.Logger;
 import org.sa.studyassistant.util.TimeUtil;
 
@@ -14,6 +15,9 @@ public class StudyReceiver extends BroadcastReceiver {
      * #packageName + ".alarm"
      * <intent-filter>
      *    <action android:name="org.sa.studyassistant.alarm"/>
+     * </intent-filter>
+     * <intent-filter>
+     *    <action android:name="org.sa.studyassistant.active_alarm" />
      * </intent-filter>
      * <intent-filter>
      *    <action android:name="android.intent.action.BOOT_COMPLETED"></action>

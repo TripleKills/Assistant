@@ -2,6 +2,8 @@ package org.sa.studyassistant.util;
 
 import java.util.Calendar;
 
+import org.sa.studyassistant.AssistantApplication;
+
 import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
@@ -13,6 +15,16 @@ import android.content.Intent;
 public class AlarmSender {
 	private static final String tag = AlarmSender.class.getName();
 
+	public static void sendActiveAlarm() {
+		Context context = AssistantApplication.APPLICATION;
+		String action = getActiveAlarmAction();
+		deployAlarm(context, action, (int) Constants.ACTIVE_ALARM_INTERVAL);
+	}
+	
+	public static String getActiveAlarmAction() {
+		return AssistantApplication.APPLICATION.getPackageName() + ".active_alarm";
+	}
+	
 	public static void deployAlarm(Context context, String action,
 			int millisecond) {
 		Logger.i("AlarmSender", "deploy alarm " + action + " after "
